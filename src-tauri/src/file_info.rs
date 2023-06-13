@@ -24,11 +24,6 @@ impl GitConfig {
                 .unwrap()
                 .replace("\\Desktop", "");
             git_file_path = format!("{path}\\.gitconfig");
-            let ssh = handle
-                .path_resolver()
-                .resolve_resource("..\\resources\\ssh-forward.config")
-                .expect("failed to resolve resource");
-            ssh_file_path = format!("{}", ssh.to_string_lossy());
         } else if cfg!(target_os = "macos") {
             path = UserDirs::new()
                 .unwrap()
@@ -37,12 +32,12 @@ impl GitConfig {
                 .unwrap()
                 .replace("/Desktop", "");
             git_file_path = format!("{path}/.gitconfig");
-            let ssh = handle
-                .path_resolver()
-                .resolve_resource("../resources/ssh-forward.config")
-                .expect("failed to resolve resource");
-            ssh_file_path = format!("{}", ssh.to_string_lossy());
         }
+        let ssh = handle
+            .path_resolver()
+            .resolve_resource("../resources/ssh-forward.config")
+            .expect("failed to resolve resource");
+        ssh_file_path = format!("{}", ssh.to_string_lossy());
 
         GitConfig {
             git_file_path,
