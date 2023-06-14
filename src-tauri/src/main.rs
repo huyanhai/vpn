@@ -6,6 +6,7 @@ mod runner;
 
 use file_info::GitConfig;
 use runner::Runner::{Running, VpnStatus, CLOSE_STATUS};
+use std::{thread, time};
 
 #[tauri::command]
 fn git_config_ctx(handle: tauri::AppHandle, file_type: u8) -> String {
@@ -48,6 +49,15 @@ fn main() {
             running,
             kill
         ])
+        .on_window_event(|event| match event.event() {
+            tauri::WindowEvent::CloseRequested { api, .. } => unsafe {
+                CLOSE_STATUS = VpnStatus::CLOSE;
+                thread::sleep(time::Duration::from_millis(600));
+                api.prevent_close();
+                event.window().close().unwrap();
+            },
+            _ => {}
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -1,5 +1,8 @@
 pub mod Runner {
-    use std::{process::Command, thread, time};
+    use std::{
+        process::{Command, Stdio},
+        thread, time,
+    };
     pub enum VpnStatus {
         OPEN,
         CLOSE,
@@ -30,6 +33,7 @@ pub mod Runner {
                 let mut child = Command::new("java")
                     .arg("-jar")
                     .arg(self.file_path)
+                    .stdout(Stdio::piped())
                     .spawn()
                     .unwrap();
 
@@ -38,7 +42,7 @@ pub mod Runner {
                 }
 
                 loop {
-                    thread::sleep(time::Duration::from_secs(1));
+                    thread::sleep(time::Duration::from_millis(500));
                     unsafe {
                         match CLOSE_STATUS {
                             VpnStatus::CLOSE => {
