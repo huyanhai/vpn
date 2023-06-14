@@ -8,30 +8,34 @@ use platform_dirs::UserDirs;
 pub struct GitConfig {
     git_file_path: String,
     ssh_file_path: String,
+    npm_file_path: String,
 }
 
 impl GitConfig {
     pub fn new(handle: tauri::AppHandle) -> Self {
-        let mut path = String::from("");
+        let mut desktop_dir = String::from("");
         let mut git_file_path = String::from("");
         let mut ssh_file_path = String::from("");
+        let mut npm_file_path = String::from("");
 
         if cfg!(target_os = "windows") {
-            path = UserDirs::new()
+            desktop_dir = UserDirs::new()
                 .unwrap()
                 .desktop_dir
                 .to_str()
                 .unwrap()
                 .replace("\\Desktop", "");
-            git_file_path = format!("{path}\\.gitconfig");
+            git_file_path = format!("{desktop_dir}\\.gitconfig");
+            npm_file_path = format!("{desktop_dir}\\.npmrc");
         } else if cfg!(target_os = "macos") {
-            path = UserDirs::new()
+            desktop_dir = UserDirs::new()
                 .unwrap()
                 .desktop_dir
                 .to_str()
                 .unwrap()
                 .replace("/Desktop", "");
-            git_file_path = format!("{path}/.gitconfig");
+            git_file_path = format!("{desktop_dir}/.gitconfig");
+            npm_file_path = format!("{desktop_dir}/.npmrc");
         }
         let ssh = handle
             .path_resolver()
@@ -42,6 +46,7 @@ impl GitConfig {
         GitConfig {
             git_file_path,
             ssh_file_path,
+            npm_file_path,
         }
     }
 
@@ -50,6 +55,7 @@ impl GitConfig {
 
         match file_type {
             1 => file_path = self.git_file_path,
+            2 => file_path = self.npm_file_path,
             _ => file_path = self.ssh_file_path,
         }
         read_to_string(file_path).unwrap()
@@ -60,6 +66,7 @@ impl GitConfig {
 
         match file_type {
             1 => file_path = self.git_file_path,
+            2 => file_path = self.npm_file_path,
             _ => file_path = self.ssh_file_path,
         }
         write(file_path, ctx)

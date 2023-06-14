@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Editor: typeof import('./src/components/Editor.vue')['default']
+    ElAlert: typeof import('element-plus/es')['ElAlert']
     Git: typeof import('./src/components/Git.vue')['default']
   }
 }

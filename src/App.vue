@@ -11,6 +11,9 @@ const active = ref("git");
     <ElTabPane label="git" name="git">
       <Git :type="1" />
     </ElTabPane>
+    <ElTabPane label="npm" name="npm">
+      <Git :type="2" />
+    </ElTabPane>
     <ElTabPane label="ssh" name="ssh">
       <Git :type="0" />
     </ElTabPane>
