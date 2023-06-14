@@ -12,9 +12,6 @@
         <ElLink type="success" :underline="false">npm install -g http-proxy-to-socks</ElLink><br />
         # 然后使用这个工具监听8002端口,支持http代理，然后所有8002的http代理数据都将转换成socks的代理数据发送到1081上<br />
         <ElLink type="success" :underline="false">hpts -s 127.0.0.1:1081 -p 8002</ElLink><br />
-        # 最后设置npm代理为8080 <br />
-        <ElLink type="success" :underline="false">npm config set proxy http://127.0.0.1:8002</ElLink><br />
-        <ElLink type="success" :underline="false">npm config set https-proxy http://127.0.0.1:8002</ElLink>
       </div>
     </div>
     <ElCard>

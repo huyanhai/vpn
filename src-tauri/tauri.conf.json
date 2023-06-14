@@ -31,7 +31,7 @@
     "windows": [
       {
         "fullscreen": false,
-        "resizable": true,
+        "resizable": false,
         "title": "vpn",
         "width": 800,
         "height": 600
